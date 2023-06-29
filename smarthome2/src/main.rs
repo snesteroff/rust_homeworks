@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+#![allow(unused_variables)]
 use std::collections::HashMap;
 // Метка todo - реализовать самостоятельно
 
@@ -24,12 +26,22 @@ impl SmartHouse {
         // Размер возвращаемого массива можно выбрать самостоятельно
         // todo!("список комнат")
         //let mut list_rooms: [&str] =
+        for (one_room, _) in &self.rooms {
+            println!("Room #{}", one_room);
+        }
         ["Room 1", "Room 2"]
     }
 
     fn devices(&self, room: &str) -> [&str; 3] {
         // Размер возвращаемого массива можно выбрать самостоятельно
         // todo!("список устройств в комнате `room`")
+        if let Some(sroom) = self.rooms.get(room) {
+            let hash_devices = &sroom.devices;
+            for (str_name, _) in hash_devices {
+                println!("Имя устройстав {}", str_name);
+            }
+        } else {
+        }
         if room == "Room 1" {
             ["1", "2", "3"]
         } else {
@@ -43,8 +55,7 @@ impl SmartHouse {
         // device_info: DeviceInfoProvider,
     ) -> String {
         let report_rooms = self.get_rooms();
-
-        todo!("перебор комнат и устройств в них для составления отчёта")
+        String::from("Haha")
     }
 }
 
@@ -119,6 +130,7 @@ fn main() {
     let report2 = house.create_report(/* &info_provider_2 */);
 
     // Выводим отчёты на экран:
+
     println!("Report #1: {report1}");
     println!("Report #2: {report2}");
 }
