@@ -26,7 +26,7 @@ impl SmartHouse {
         // Размер возвращаемого массива можно выбрать самостоятельно
         // todo!("список комнат")
         //let mut list_rooms: [&str] =
-        for (one_room, _) in &self.rooms {
+        for one_room in self.rooms.keys() {
             println!("Room #{}", one_room);
         }
         ["Room 1", "Room 2"]
@@ -34,10 +34,9 @@ impl SmartHouse {
 
     fn devices(&self, room: &str) -> [&str; 3] {
         // Размер возвращаемого массива можно выбрать самостоятельно
-        // todo!("список устройств в комнате `room`")
-        if let Some(sroom) = self.rooms.get(room) {
-            let hash_devices = &sroom.devices;
-            for (str_name, _) in hash_devices {
+
+        if let Some(single_room) = self.rooms.get(room) {
+            for str_name in single_room.devices.keys() {
                 println!("Имя устройстав {}", str_name);
             }
         } else {
