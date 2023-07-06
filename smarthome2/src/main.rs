@@ -99,7 +99,7 @@ impl DeviceInfoProvider for OwningDeviceInfoProvider {
     fn device_info(&self, name: &str, room: &str) -> String {
         let room = room.to_owned();
         let name = name.to_owned();
-        let result = room;
+        let result = room + &name;
         room
     }
 }
