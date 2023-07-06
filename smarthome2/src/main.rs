@@ -22,14 +22,15 @@ impl SmartHouse {
         }
     }
 
-    fn get_rooms(&self) -> [&str; 2] {
+    fn get_rooms(&self) -> Vec<String> {
+        //[&str; 2] {
         // Размер возвращаемого массива можно выбрать самостоятельно
         // todo!("список комнат")
         //let mut list_rooms: [&str] =
         for one_room in self.rooms.keys() {
             println!("Room #{}", one_room);
         }
-        ["Room 1", "Room 2"]
+        vec![String::from("Room 1"), String::from("Room 2")]
     }
 
     fn devices(&self, room: &str) -> [&str; 3] {
@@ -51,16 +52,16 @@ impl SmartHouse {
     fn create_report(
         &self,
         /* todo: принять обобщённый тип предоставляющий информацию об устройствах */
-        // device_info: DeviceInfoProvider,
+        device_info1: &impl DeviceInfoProvider,
     ) -> String {
         let report_rooms = self.get_rooms();
-        String::from("Haha")
+        String::from(report_rooms.join(" - "))
     }
 }
 
 trait DeviceInfoProvider {
     // todo: метод, возвращающий состояние устройства по имени комнаты и имени устройства
-    fn device_info(name: &str, room: &str);
+    fn device_info(&self, name: &str, room: &str) -> &'static str;
 }
 
 // ***** Пример использования библиотеки умный дом:
@@ -95,10 +96,17 @@ struct BorrowingDeviceInfoProvider<'a, 'b> {
 
 // todo: реализация трейта `DeviceInfoProvider` для поставщиков информации
 impl DeviceInfoProvider for OwningDeviceInfoProvider {
-    fn device_info(name: &str, room: &str) {}
+    fn device_info(&self, name: &str, room: &str) -> String {
+        let room = room.to_owned();
+        let name = name.to_owned();
+        let result = room;
+        room
+    }
 }
 impl<'a, 'b> DeviceInfoProvider for BorrowingDeviceInfoProvider<'a, 'b> {
-    fn device_info(name: &str, room: &str) {}
+    fn device_info(&self, name: &str, room: &str) -> &'static str {
+        ""
+    }
 }
 fn main() {
     // Инициализация устройств
@@ -118,7 +126,7 @@ fn main() {
     // Строим отчёт с использованием `OwningDeviceInfoProvider`.
     let info_provider_1 = OwningDeviceInfoProvider { socket: socket1 };
     // todo: после добавления обобщённого аргумента в метод, расскоментировать передачу параметра
-    let report1 = house.create_report(/* &info_provider_1 */);
+    let report1 = house.create_report(&info_provider_1);
 
     // Строим отчёт с использованием `BorrowingDeviceInfoProvider`.
     let info_provider_2 = BorrowingDeviceInfoProvider {
@@ -126,7 +134,7 @@ fn main() {
         thermo: &thermo,
     };
     // todo: после добавления обобщённого аргумента в метод, расскоментировать передачу параметра
-    let report2 = house.create_report(/* &info_provider_2 */);
+    let report2 = house.create_report(&info_provider_2);
 
     // Выводим отчёты на экран:
 
