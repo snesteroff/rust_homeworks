@@ -1,13 +1,27 @@
 #![allow(dead_code)]
 #![allow(unused_variables)]
 use std::collections::HashMap;
-// Метка todo - реализовать самостоятельно
 
 // ***** Пример библиотеки "Умный дом" со статическим содержимым
 
 struct SmartRoom {
     room_name: String,
     devices: HashMap<String, SmartDevice>,
+}
+impl SmartRoom {
+    fn new() -> Self {
+        Self {
+            room_name: String::default(),
+            devices: HashMap::new(),
+        }
+    }
+    fn room_devices(&self) -> Vec<&String> {
+        let mut str_dev = Vec::new();
+        for device in self.devices.keys() {
+            str_dev.push(device);
+        }
+        str_dev
+    }
 }
 struct SmartHouse {
     house_name: String,
