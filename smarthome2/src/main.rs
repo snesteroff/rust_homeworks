@@ -61,7 +61,7 @@ impl SmartHouse {
 
 trait DeviceInfoProvider {
     // todo: метод, возвращающий состояние устройства по имени комнаты и имени устройства
-    fn device_info(&self, name: &str, room: &str) -> &'static str;
+    fn device_info(&self, name: &str, room: &str) -> String;
 }
 
 // ***** Пример использования библиотеки умный дом:
@@ -100,12 +100,12 @@ impl DeviceInfoProvider for OwningDeviceInfoProvider {
         let room = room.to_owned();
         let name = name.to_owned();
         let result = room + &name;
-        room
+        result
     }
 }
 impl<'a, 'b> DeviceInfoProvider for BorrowingDeviceInfoProvider<'a, 'b> {
-    fn device_info(&self, name: &str, room: &str) -> &'static str {
-        ""
+    fn device_info(&self, name: &str, room: &str) -> String {
+        String::from("")
     }
 }
 fn main() {
