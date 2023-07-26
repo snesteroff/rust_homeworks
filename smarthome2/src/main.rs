@@ -66,7 +66,7 @@ impl SmartHouse {
     fn create_report(
         &self,
         /* todo: принять обобщённый тип предоставляющий информацию об устройствах */
-        device_info1: &impl DeviceInfoProvider,
+        dev_info: &impl DeviceInfoProvider,
     ) -> String {
         let report_rooms = self.get_rooms();
         String::from(report_rooms.join(" - "))
